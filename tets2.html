@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Logger</title>
+    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #map {
+            width: 100%;
+            min-height: 300px; 
+        }
+        #successMessage {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-white flex items-center justify-center min-h-screen">
+    <main class="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl flex space-x-6">
+        <!-- map section -->
+        <section id="map-container" class="flex-1 relative bg-gray-200 p-4 rounded-lg">
+            <div id="map" class="h-full w-full"></div>
+            <img class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8" src="ressources/cross_100185.png" alt="CenterPoint" title="CenterPoint">
+            <img class="absolute top-2 right-2 w-8 h-8" id="MyPosition" src="ressources/icons8-gps-96-on.png" alt="GPS Status" title="GPS Status">
+            <header class="absolute top-0 left-0 right-0 p-4 flex items-center justify-between bg-white bg-opacity-75">
+                <div class="text-lg font-bold">Checkpoint Logger</div>
+                <img class="w-34 h-34" src="ressources/login_AL_logo.png" alt="Company Logo">
+            </header>
+        </section>
+        
+        <!-- calc section -->
+        <section id="calc" class="flex-1 bg-gray-50 p-6 rounded-lg shadow-lg">
+            <form id="loginForm" class="space-y-4">
+                <!-- login form -->
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flex-1">
+                        <label for="firma" class="block font-medium"><b>Firma</b></label>
+                        <input type="text" id="firma" placeholder="Firma" name="firma" class="w-full p-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="flex-1">
+                        <label for="location" class="block font-medium"><b>Standort</b></label>
+                        <input type="text" id="location" placeholder="Standort" name="location" class="w-full p-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="flex items-center">
+                        <button type="submit" id="btnLogin" class="px-4 py-2 bg-blue-500 text-white rounded">Anmelden</button>
+                    </div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <input type="checkbox" id="remember" name="remember" checked class="mr-2">
+                    <label for="remember" class="font-medium">Speichern</label>
+                </div>
+                <div class="box-padding">
+                </div>
+            </form>
+
+            <div id="successMessage" class="mt-4 p-4 bg-green-200 text-green-800 rounded">
+                Erfolgreich eingeloggt
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="box">
+                    <div class="font-medium">Format:</div>
+                    <div id="GMS" title="Klick mich!" class="cursor-pointer">GG°MM'SS</div>
+                    <div id="GGG">G.GGG</div>
+                </div>
+                <div id="ergebnis" class="box">
+                    <!-- -->
+                </div>
+                <label class="toggle flex items-center">
+                    <input id="toggleswitch" type="checkbox" class="sr-only">
+                    <span class="roundbutton w-10 h-5 bg-gray-200 rounded-full cursor-pointer"></span>
+                </label>
+            </div>
+            <div class="box-padding">
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="box">
+                    <div class="text-lg font-medium" id="checkpoints">Checkpoints: </div>
+                </div>
+
+                <div class="box-padding">
+                </div>
+                <div class="box-padding">
+                </div>
+                <div class="box">
+                    <label for="Lat" class="block">Lat:</label>
+                    <input type="text" id="Lat" value="0" size="10" maxlength="20" class="w-full p-2 border border-gray-300 rounded">
+                    <div class="text-center">(N)</div>
+                </div>
+                <div class="box">
+                    <label for="Lon" class="block">Lon:</label>
+                    <input type="text" id="Lon" value="0" size="10" maxlength="20" class="w-full p-2 border border-gray-300 rounded">
+                    <div class="text-center">(E)</div>
+                </div>
+                <div class="box">
+                    <label for="Distance" class="block">Distance:</label>
+                    <input class="w-full p-2 border border-gray-300 rounded" type="text" id="Distance" value="0 m" size="7" maxlength="10">
+                </div>
+            </div>
+            <div class="box-padding">
+            </div>
+            <div class="box flex flex-col space-y-2 mt-4">
+                <button class="NewBtn px-4 py-2 bg-black text-white rounded">Neu</button>
+                <button class="DeleteBtn px-4 py-2 bg-black text-white rounded">Löschen</button>
+                <button class="ExportBtn px-4 py-2 bg-black text-white rounded">Exportieren KML</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
+    <script type="module" src="./umrechner.js"></script>
+    <script type="module" src="./main.js"></script>
+    <script src="script.js"></script>
+    <script>
+            // anmelden 
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const firma = document.getElementById('firma').value;
+            const location = document.getElementById('location').value;
+            const successMessage = document.getElementById('successMessage');
+            const checkpoints = document.getElementById('checkpoints');
+
+            //  date and time
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); 
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            const timestamp = `${day}.${month}.${year}, ${hours}:${minutes} h`;
+
+            successMessage.style.display = 'block';
+            checkpoints.textContent = `Checkpoints:     ${firma}, ${location}, ${timestamp}`;
+
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000); //  after 3 seconds
+        });
+    </script>
+</body>
+</html>

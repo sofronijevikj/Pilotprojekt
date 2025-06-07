@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Logger</title>
+    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script type="module" src="./main.js"></script> <!-- Ensure main.js is properly linked -->
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <main class="bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
+        <!-- Map Section -->
+        <section id="map-container" class="flex-1 relative bg-gray-200 p-4 rounded-lg">
+            <div id="map" class="h-full w-full"></div>
+            <!--icon-->
+            <div id="popup"></div>
+            <img class="absolute" id="MyPosition" src="ressources/icons8-gps-96-on.png" alt="GPS Status" title="GPS Status" style="top: 120px; left: 17px; width: 24px; height: 24px;">
+            <header class="absolute top-0 left-0 right-0 p-2 flex items-center justify-between bg-white bg-opacity-75 shadow-md">
+                <div class="flex-1 text-center text-lg font-semibold">Checkpoint Logger</div>
+                <img class="w-34 h-23" src="ressources/login_AL_logo.png" alt="Company Logo">
+            </header>
+        </section>
+
+        <!-- Calc Section -->
+        <section id="calc" class="flex-1 bg-gray-50 p-6 rounded-lg shadow-lg">
+            <form id="loginForm" class="space-y-4">
+                <!-- Login -->
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flex-1 space-y-4">
+                        <div>
+                            <label for="firma" class="block text-gray-700 text-sm font-medium mb-1">Firma</label>
+                            <input type="text" id="firma" placeholder="Geben Sie den Firmennamen ein" name="firma" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" required>
+                        </div>
+                        <div>
+                            <label for="login" class="block text-gray-700 text-sm font-medium mb-1">Login</label>
+                            <input type="text" id="login" placeholder="Geben Sie den Loginname ein" name="login" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" required>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button type="submit" id="btnLogin" class="btn-primary bg-black text-white hover:bg-red-600">Anmelden</button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="successMessage" class="box bg-gray-100 p-4 rounded-lg shadow-md" style="display: none;">
+                Anmeldung erfolgreich!
+            </div>
+
+            <!-- Creating Coordinates and Manipulations -->
+            <div class="box bg-gray-100 p-4 rounded-lg shadow-md">
+                <div class="font-medium">Format:</div>
+                <div id="GMS" title="Click me!" class="cursor-pointer text-blue-500">GG°MM'SS</div>
+                <div id="GGG" class="cursor-pointer text-gray-500">G.GGG</div>
+            </div>
+            <div id="ergebnis" class="box bg-gray-100 p-4 rounded-lg shadow-md">
+                <label class="toggle flex items-center">
+                    <input id="toggleswitch" type="checkbox" class="sr-only">
+                    <span class="roundbutton bg-gray-300 rounded-full"></span>
+                </label>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Checkpoints text version -->
+                <div class="box bg-gray-100 p-4 rounded-lg shadow-md">
+                    <div class="text-lg font-medium" id="checkpoints">Checkpoints:</div>
+                </div>
+                
+                <div class="box bg-gray-100 p-4 rounded-lg shadow-md">
+                    <label for="Lat" class="block text-sm font-medium">Lat:</label>
+                    <input type="number" id="Lat" placeholder="Enter Latitude" value="0" size="10" maxlength="20" step="0.0001" class="w-full p-2 border border-gray-300 rounded-lg">
+                    <div class="text-center text-sm">(N)</div>
+                </div>
+                <div class="box bg-gray-100 p-4 rounded-lg shadow-md">
+                    <label for="Lon" class="block text-sm font-medium">Lon:</label>
+                    <input type="number" id="Lon" placeholder="Enter Longitude" value="0" size="10" maxlength="20" step="0.0001" class="w-full p-2 border border-gray-300 rounded-lg">
+                    <div class="text-center text-sm">(E)</div>
+                </div>
+
+                <!-- Button -->
+                <div class="flex flex-col space-y-2 mt-4">
+                    <button id="NewBtn" class="btn-primary bg-black text-white hover:bg-red-600">Neu</button>
+                    <button id="DeleteBtn" class="btn-primary bg-black text-white hover:bg-red-600">Löschen</button>
+                    <button id="ExportBtn" class="btn-primary bg-black text-white hover:bg-red-600">Export</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

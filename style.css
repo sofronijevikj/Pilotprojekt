@@ -1,0 +1,299 @@
+/* Import OpenLayers CSS */
+@import "node_modules/ol/ol.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 5px;
+  padding: 0;
+  height: 100%;
+  color: #020202;
+  font-family: Arial, sans-serif;
+  background-color: #0c0c0c;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.5);
+}
+
+/* Portrait orientation */
+@media (orientation: portrait) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Media query for devices with max-width 480px */
+@media (max-width: 480px) {
+  #map-container img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #map {
+    height: 40vh; /* Height for map on mobile devices */
+  }
+
+  #calc {
+    width: 100%; 
+    height: auto;
+    font-size: 18px; 
+  }
+
+  .box {
+    width: 100%;
+    padding: 10px;
+  }
+}
+/* von css*/
+.btn-primary {
+  font-size: 1rem; 
+  font-weight: 600; 
+  padding: 0.75rem 1.5rem; 
+  border-radius: 0.375rem; 
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for button styles */
+}
+
+.box {
+  font-size: 1rem; 
+}
+
+#map {
+  width: 100%;
+  min-height: 100px;
+}
+/* Landscape orientation */
+@media (orientation: landscape) {
+  #calc {
+    height: 100vh;
+    width: 30%; 
+    font-size: 20px; 
+  }
+
+  #map {
+    width: 60vw; 
+    height: 100vh; 
+  }
+
+  #map-container img {
+    max-width: 100%; 
+    height: auto;
+  }
+}
+
+/* Text input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  font-size: 16px; 
+  border-radius: 5px;
+  border: 1px solid #ccc; 
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+/* Additional styles */
+.added-animation {
+  animation: addedAnimation 0.5s;
+}
+
+@keyframes addedAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.deleted-animation {
+  animation: deletedAnimation 0.5s;
+}
+
+@keyframes deletedAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* General button styles */
+.btn-primary {
+  font-size: 1rem; 
+  font-weight: 600; 
+  padding: 0.75rem 1.5rem; 
+  border-radius: 0.375rem; 
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for button styles */
+}
+.box {
+  font-size: 1rem; 
+}
+
+#map {
+  width: 100%;
+  min-height: 100px;
+}
+
+.btn-primary:hover {
+  background-color: #333; /* Darker shade of black */
+  border-color: #222; /* Adjust border color on hover */
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Focus ring */
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none;
+}
+
+/* Buttons container */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px; 
+  font-weight: 600; 
+  padding: 12px 24px; 
+  border: none;
+  border-radius: 8px; 
+  color: #ffffff; 
+  background-color: #020202;
+  cursor: pointer; 
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Hover styles */
+button:hover {
+  background-color: #030303;
+  transform: scale(1.05); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Active styles */
+button:active {
+  background-color: #000000; 
+  transform: scale(0.95); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+/* Disabled button */
+button:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Toggle */
+.toggle {
+  display: flex;
+  align-items: center;
+  position: relative; 
+  width: 100px; 
+  height: 50px; 
+}
+
+/* Checkbox input */
+input[type="checkbox"] {
+  display: none; 
+}
+
+.roundbutton {
+  position: relative; 
+  width: 100%; 
+  height: 100%; 
+  background-color: #8e8e8e; 
+  border-radius: 35px; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Start position */
+}
+
+input[type="checkbox"]:checked + .roundbutton {
+  background-color: #bebbbb; 
+  justify-content: flex-end; /* End position */
+
+}
+
+/* Circle that moves inside */
+.roundbutton:before {
+  content: "";
+  position: absolute;
+  top: 50%; 
+  left: 4px; 
+  width: 40px; 
+  height: 40px; 
+  background: #000000; 
+  border-radius: 50%; 
+  transition: transform 0.3s; 
+  transform: translateX(0) translateY(-50%); 
+}
+
+
+input[type="checkbox"]:checked + .roundbutton:before {
+  transform: translateX(50px) translateY(-50%); /* Move right */
+}
+
+/* OpenLayers zoom control */
+.ol-zoom {
+  position: absolute; 
+  top: 40px; 
+  right: 0;
+  left: 0;
+  z-index: 100;
+}
+
+/* MyPosition control */
+#MyPosition {
+  position: absolute; 
+  top: 70px; 
+  left: 10px; 
+  width: 30px; 
+  height: 30px; 
+}
+
+.CenterCross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Ensure it appears above the map */
+  width: 50px;  /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+}
+
+.CenterCross img {
+  width: 100%;  /* Ensure the image fills the container */
+  height: auto; /* Maintain aspect ratio */
+}
